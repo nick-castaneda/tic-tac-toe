@@ -1,16 +1,35 @@
+/****************            General Styles           ****************/
 body{
   background-color: #BAE4F0;
   font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
 }
-h1{
+
+/****************             Header Styles           ****************/
+header{
   text-align: center;
-  font-size: 50px;
+  font-size: 40px;
+}
+h1{
   text-decoration: underline;
+  margin: 5px;
+}
+h2{
+  font-size: 30px;
+  text-decoration: italic;
+  margin: 5px 5px 20px 5px;
+}
+
+/****************            Board Styles           ******************/
+main{
+  display: inline-block;
+  width: 700px;
+  float: left;
 }
 #board_game{
-  margin: 0 auto;
+  float: right;
   width: 650px;
   height: 650px;
+  margin-right: ;
 }
 .square{
   background-color: #36C3E0;
@@ -20,12 +39,31 @@ h1{
   border: 2px solid black;
   margin: 15px;
 }
-p{
-  margin: 50px;
+h4{
+  margin: 5px;
   text-align: center;
   padding: 0;
-  font-size: 65px;
+  font-size: 100px;
 }
+
+/****************            Sidebar Styles         ******************/
+aside{
+  display: inline-block;
+  vertical-align: top;
+  width: 200px;
+  height: 300px;
+  border: 2px solid black;
+  margin: 20px 20px 0 20px;
+  float: left;
+}
+h3{
+  padding: 10px;
+}
+p{
+  padding: 3px;
+}
+
+/****************           Dynamic Classes         ******************/
 .x{
   background-color: green;
 }
