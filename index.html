@@ -3,40 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <title>Tic Tac Toe</title>
+  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
   <header>
-    <h1>Tic Tac Toe</h1>
-    <h2>by Nick Castañeda</h2>
+    <h1>TIC | TAC | TOE</h1>
+    <div id="console_text">
+      <div class="console" id="player1">Player 1</div>
+      <div class="console" id="middle">&nbsp&nbsp vs &nbsp&nbsp</div>
+      <div class="console" id="player2">Player 2</div>
+    </div>
+    <button><strong>Reset!</strong></button>
   </header>
 
-  <aside>
-    <h3>Winner: </h3>
-    <p id="winner_text"></p>
-  </aside>
-
-  <main>
-    <div id="board_game">
-      <div class="row">
-        <div class="square" id="a1"><h4>X</h4></div>
-        <div class="square" id="a2"><h4>X</h4></div>
-        <div class="square" id="a3"><h4>X</h4></div>
-      </div>
-      <div class="row">
-        <div class="square" id="b1"><h4>O</h4></div>
-        <div class="square" id="b2"><h4>O</h4></div>
-        <div class="square" id="b3"><h4>O</h4></div>
-      </div>
-      <div class="row">
-        <div class="square" id="c1"><h4>X</h4></div>
-        <div class="square" id="c2"><h4>O</h4></div>
-        <div class="square" id="c3"><h4>X</h4></div>
-      </div>
+  <div id="board_game">
+    <div class="row">
+      <div class="square" id="a1"><h4 id="ha1"></h4></div>
+      <div class="square" id="a2"><h4 id="ha2"></h4></div>
+      <div class="square" id="a3"><h4 id="ha3"></h4></div>
     </div>
-  </main>
+    <div class="row">
+      <div class="square" id="b1"><h4 id="hb1"></h4></div>
+      <div class="square" id="b2"><h4 id="hb2"></h4></div>
+      <div class="square" id="b3"><h4 id="hb3"></h4></div>
+    </div>
+    <div class="row">
+      <div class="square" id="c1"><h4 id="hc1"></h4></div>
+      <div class="square" id="c2"><h4 id="hc2"></h4></div>
+      <div class="square" id="c3"><h4 id="hc3"></h4></div>
+    </div>
+  </div>
 
+  <footer>
+    <div id="casta">By: Nick Castañeda</div>
+  </footer>
 <script src="script.js"></script>
 </body>
 </html>
