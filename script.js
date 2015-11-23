@@ -127,6 +127,7 @@ button.addEventListener('click', function(){
   diaA1 = 0;
   diaA3 = 0;
   gameOver = false;
+  easyCompOn = 0;
   messageSetup();
   player1.style.textDecoration = "underline";
   player2.style.textDecoration = "none";
@@ -137,7 +138,6 @@ button.addEventListener('click', function(){
   }
 })
 
-
 // This is not efficient at all.  Fix later if time.
 // Line 1 listens for a click and executes the function.
 // The first if/then only executes the second loop if the square has the
@@ -145,6 +145,7 @@ button.addEventListener('click', function(){
 // The second if/then changes the class to 'x' or 'y' depending on the
 //    turn and changes the value of its associated winPossibility vars.
 // The function lastly increments the counter and checks for a winner.
+
 a1.addEventListener('click', function(){
   if(gameOver){
     console.log('The game is over.  QUIT CLICKIN');
@@ -162,7 +163,7 @@ a1.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
-    easyAI();
+    easyComp();
   }
 })
 a2.addEventListener('click', function(){
@@ -182,7 +183,7 @@ a2.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
-    easyAI();
+    easyComp();
   }
 })
 a3.addEventListener('click', function(){
@@ -202,6 +203,7 @@ a3.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
+    easyComp();
   }
 })
 b1.addEventListener('click', function(){
@@ -221,6 +223,7 @@ b1.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
+    easyComp();
   }
 })
 b2.addEventListener('click', function(){
@@ -240,6 +243,7 @@ b2.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
+    easyComp();
   }
 })
 b3.addEventListener('click', function(){
@@ -259,6 +263,7 @@ b3.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
+    easyComp();
   }
 })
 c1.addEventListener('click', function(){
@@ -278,6 +283,7 @@ c1.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
+    easyComp();
   }
 })
 c2.addEventListener('click', function(){
@@ -297,6 +303,7 @@ c2.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
+    easyComp();
   }
 })
 c3.addEventListener('click', function(){
@@ -316,117 +323,246 @@ c3.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
+    easyComp();
   }
 })
 
 ///////////////////////////////////////////////////////////////////////
-//                             Weak A.I.                             //
+//                     Computer Player Functions                     //
 ///////////////////////////////////////////////////////////////////////
 
-function easyAI(){
-  var noMove = true;
-  while(noMove){
-    var possMove = square[ranZeroToEight()];
-    console.log(possMove);
-    if(possMove.className === 'square'){
-      console.log("success!");
-      noMove = false;
-    }
-  }
-}
+// Computer variables
+var easyCompOn = 0;
 
+// Sets up event listener to turn on compAI
+player2.addEventListener('click', function(){
+  easyCompOn ++;
+  if(easyCompOn % 2 === 0){
+    player2.innerHTML = 'Player 2';
+  } else {
+    player2.innerHTML = 'Easy Computer';
+  }
+})
+
+// Picks a random number from 0 to 8.
 function ranZeroToEight(){
   return Math.floor(Math.random() * 9);
 }
 
-
-
-
-
-
-
-
-/*
-// AI variables
-var aiMoves = square;
-var divideBy = square.length;
-
-//This shuffles the aiMoves array
-function shuffle() {
-  var currentIndex = aiMoves.length, temporaryValue, randomIndex ;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = aiMoves[currentIndex];
-    aiMoves[currentIndex] = aiMoves[randomIndex];
-    aiMoves[randomIndex] = temporaryValue;
-  }
-
-  return aiMoves;
-}
-
-// AI runs if its Player 2's turn
-function easyAI(){
-  if(clickCounter % 2 === 1){
-    divideBy = divideBy;
-  }
-}
-//easyAI takes function that shuffles the square array and goes through
-//the array in order looking for one with a 'square class'.  If it's
-//square, it plays that one.
-
-
-
-
-
-
-*/
-
-
-
-// Picks a random move
-/*function randomMove(numOfPieces){
-  var randomNum = Math.floor(Math.random * numOfPieces);
-  switch(randomNum){
-    case 0:
-      return 0;
-      console.log("hi");
-      break;
-    case 1:
-      return 1;
-      console.log("1");
-      break;
-    case 2:
-      return 2;
-      console.log("2");
-      break;
-    case 3:
-      return 3;
-      console.log("3");
-      break;
-    case 4:
-      return 4;
-      console.log("4");
-      break;
-    case 5:
-      return 5;
-      console.log("5");
-      break;
-    case 6:
-      return 6;
-      console.log("6");
-      break;
-    case 7:
-      return 7;
-      console.log("7");
-      break;
+// Easy Computer function: The if statement checks if the easy computer
+// is on; noMove is declared, which tracks whether or not the comp has a
+// move yet; the while loop only works if the comp doesn't have a move
+// and if there has been less than 8 moves; inside the while-loop the
+// randomFunction picks a random square and it is set to the 'possMove'
+// var; if 'possMove' still has the starting class, the switch runs a
+// click simulation on the respective square.
+function easyComp(){
+  if(easyCompOn % 2 === 1){
+    var noMove = true;
+    while(noMove && clickCounter < 8){
+      var possMove = square[ranZeroToEight()];
+      if(possMove.className === 'square'){
+        switch(possMove){
+          case a1:
+            simA1(); break;
+          case a2:
+            simA2(); break;
+          case a3:
+            simA3(); break;
+          case b1:
+            simB1(); break;
+          case b2:
+            simB2(); break;
+          case b3:
+            simB3(); break;
+          case c1:
+            simC1(); break;
+          case c2:
+            simC2(); break;
+          case c3:
+            simC3(); break;
+        }
+        noMove = false;
+      }
+    }
   }
 }
-*/
 
+// Hard Computer function:
+function hardComp(){
+
+}
+
+// These Simulated click functions identical to the click functions aside
+// from the a1 function
+function simA1(){
+  if(gameOver){
+    console.log('The game is over.  QUIT CLICKIN');
+  } else if(a1.className != 'square'){
+    console.log('already clicked');
+  } else {
+    if (isPlayer1Turn()){
+      a1.className = 'square x';
+      ha1.innerHTML = 'X';
+      rowA ++; col1 ++; diaA1 ++;
+    } else {
+      a1.className = 'square o';
+      ha1.innerHTML = 'O';
+      rowA --; col1 --; diaA1 --;
+    }
+    clickCounter ++;
+    winnerCheck();
+  }
+}
+function simA2(){
+  if(gameOver){
+    console.log('The game is over.  QUIT CLICKIN');
+  } else if(a2.className != 'square'){
+    console.log('already clicked');
+  } else {
+    if(isPlayer1Turn()){
+      a2.className = 'square x';
+      ha2.innerHTML = 'X';
+      rowA ++; col2 ++;
+    } else {
+      a2.className = 'square o';
+      ha2.innerHTML = 'O';
+      rowA --; col2 --;
+    }
+    clickCounter ++;
+    winnerCheck();
+  }
+}
+function simA3(){
+  if(gameOver){
+    console.log('The game is over.  QUIT CLICKIN');
+  } else if(a3.className != 'square'){
+    console.log('already clicked');
+  } else {
+    if(isPlayer1Turn()){
+      a3.className = 'square x';
+      ha3.innerHTML = 'X';
+      rowA ++; col3 ++; diaA3 ++;
+    } else {
+      a3.className = 'square o';
+      ha3.innerHTML = 'O';
+      rowA --; col3 --; diaA3 --;
+    }
+    clickCounter ++;
+    winnerCheck();
+  }
+}
+function simB1(){
+  if(gameOver){
+    console.log('The game is over.  QUIT CLICKIN');
+  } else if(b1.className != 'square'){
+    console.log('already clicked');
+  } else {
+    if(isPlayer1Turn()){
+      b1.className = 'square x';
+      hb1.innerHTML = 'X';
+      rowB ++; col1 ++;
+    } else {
+      b1.className = 'square o';
+      hb1.innerHTML = 'O';
+      rowB --; col1 --;
+    }
+    clickCounter ++;
+    winnerCheck();
+  }
+}
+function simB2(){
+  if(gameOver){
+    console.log('The game is over.  QUIT CLICKIN');
+  } else if(b2.className != 'square'){
+    console.log('already clicked');
+  } else {
+    if(isPlayer1Turn()){
+      b2.className = 'square x';
+      hb2.innerHTML = 'X';
+      rowB ++; col2 ++; diaA1 ++; diaA3 ++;
+    } else {
+      b2.className = 'square o';
+      hb2.innerHTML = 'O';
+      rowB --; col2 --; diaA1 --; diaA3 --;
+    }
+    clickCounter ++;
+    winnerCheck();
+  }
+}
+function simB3(){
+  if(gameOver){
+    console.log('The game is over.  QUIT CLICKIN');
+  } else if(b3.className != 'square'){
+    console.log('already clicked');
+  } else {
+    if(isPlayer1Turn()){
+      b3.className = 'square x';
+      hb3.innerHTML = 'X';
+      rowB ++; col3 ++;
+    } else {
+      b3.className = 'square o';
+      hb3.innerHTML = 'O';
+      rowB --; col3 --;
+    }
+    clickCounter ++;
+    winnerCheck();
+  }
+}
+function simC1(){
+  if(gameOver){
+    console.log('The game is over.  QUIT CLICKIN');
+  } else if(c1.className != 'square'){
+    console.log('already clicked');
+  } else {
+    if(isPlayer1Turn()){
+      c1.className = 'square x';
+      hc1.innerHTML = 'X';
+      rowC ++; col1 ++; diaA3 ++;
+    } else {
+      c1.className = 'square o';
+      hc1.innerHTML = 'O';
+      rowC --; col1 --; diaA3 --;
+    }
+    clickCounter ++;
+    winnerCheck();
+  }
+}
+function simC2(){
+  if(gameOver){
+    console.log('The game is over.  QUIT CLICKIN');
+  } else if(c2.className != 'square'){
+    console.log('already clicked');
+  } else {
+    if(isPlayer1Turn()){
+      c2.className = 'square x';
+      hc2.innerHTML = 'X';
+      rowC ++; col2 ++;
+    } else {
+      c2.className = 'square o';
+      hc2.innerHTML = 'O';
+      rowC --; col2 --;
+    }
+    clickCounter ++;
+    winnerCheck();
+  }
+}
+function simC3(){
+  if(gameOver){
+    console.log('The game is over.  QUIT CLICKIN');
+  } else if(c3.className != 'square'){
+    console.log('already clicked');
+  } else {
+    if(isPlayer1Turn()){
+      c3.className = 'square x';
+      hc3.innerHTML = 'X';
+      rowC ++; col3 ++; diaA1 ++;
+    } else {
+      c3.className = 'square o';
+      hc3.innerHTML = 'O';
+      rowC --; col3 --; diaA1 --;
+    }
+    clickCounter ++;
+    winnerCheck();
+  }
+}
