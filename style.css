@@ -8,7 +8,7 @@ body{
 /****************             Header Styles           ****************/
 header{
   text-align: center;
-  font-size: 35px;
+  font-size: 30px;
 }
 h1{
   margin: 5px;
@@ -19,6 +19,7 @@ h1{
 .console{
   font-size: 30px;
   display: inline-block;
+  padding: 0;
 }
 #player1{
   color: #75A3D1;
@@ -26,9 +27,14 @@ h1{
 }
 #player2{
   color: #E05151;
+  cursor: default;
 }
 #versus{
   font-size: 30px;
+}
+#play_computer{
+  font-size: 15px;
+  margin-bottom: 0;
 }
 button{
   height: 30px;
@@ -84,3 +90,4 @@ h4{
 .o{
   background-color: #E05151;
 }
+

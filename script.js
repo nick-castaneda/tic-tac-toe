@@ -1,3 +1,9 @@
+/// Set delays
+//
+
+
+
+
 ///////////////////////////////////////////////////////////////////////
 //                           Variables                               //
 ///////////////////////////////////////////////////////////////////////
@@ -95,7 +101,7 @@ function messageSetup(){
   } else {
     player1.innerHTML = "Player 1";
     player2.innerHTML = "Player 2";
-    middle.innerHTML = "&nbsp&nbsp&nbsp&nbsp vs &nbsp&nbsp&nbsp&nbsp"
+    middle.innerHTML = "&nbsp&nbsp vs &nbsp&nbsp"
   }
 }
 
@@ -154,7 +160,7 @@ a1.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
-    compTurn();
+    setTimeout(function(){ compTurn() }, 3000);
   }
 })
 a2.addEventListener('click', function(){
@@ -328,10 +334,12 @@ var compOn = 0;
 // Sets up event listener to turn on compAI
 player2.addEventListener('click', function(){
   compOn ++;
-  if(compOn % 3 === 0){
+  if(compOn % 4 === 0){
     player2.innerHTML = 'Player 2';
-  } else if(compOn % 3 === 1){
+  } else if(compOn % 4 === 1){
     player2.innerHTML = 'Easy Computer';
+  } else if(compOn % 4 === 2){
+    player2.innerHTML = 'Medium Computer'
   } else {
     player2.innerHTML = 'Hard Computer'
   }
@@ -342,11 +350,13 @@ function ranZeroToEight(){
   return Math.floor(Math.random() * 9);
 }
 
-// This switch allows the easy comp and hard comp to move.
+// This switch allows the easy comp, medium comp, and  hard comp to move
 function compTurn(){
-  if(compOn % 3 === 1){
+  if(compOn % 4 === 1){
     easyComp();
-  } else if (compOn % 3 === 2){
+  } else if(compOn % 4 === 2){
+    mediumComp();
+  } else if (compOn % 4 === 3){
     hardComp();
   }
 }
@@ -388,7 +398,92 @@ function easyComp(){
   }
 }
 
-// Hard Computer function:
+// Medium Computer function: Sets up a new var keeping track of if the
+// medium comp has a move; while loop runs if/thens only if the comp
+// doesn't have a move and if there are turns left; the first 8 if/thens
+// trigger if either the player or the comp is one square away from
+// winning, if that's the case, the comp either ends the game or blocks
+// the player; otherwise, the comp picks a random square using the
+// easyComp function.
+function mediumComp(){
+  var nomove = true;
+  while(nomove && clickCounter < 8){
+    if(rowA === 2 || rowA === -2){
+      if(a1.className === 'square'){
+        simA1(); nomove = false;
+      } else if (a2.className === 'square'){
+        simA2(); nomove = false;
+      } else{
+        simA3(); nomove = false;
+      }
+    } else if(rowB === 2 || rowB === -2){
+      if(b1.className === 'square'){
+        simB1(); nomove = false;
+      } else if (b2.className === 'square'){
+        simB2(); nomove = false;
+      } else{
+        simB3(); nomove = false;
+      }
+    } else if(rowC === 2 || rowC === -2){
+      if(c1.className === 'square'){
+        simC1(); nomove = false;
+      } else if (c2.className === 'square'){
+        simC2(); nomove = false;
+      } else{
+        simC3(); nomove = false;
+      }
+    } else if(col1 === 2 || col1 === -2){
+      if(a1.className === 'square'){
+        simA1(); nomove = false;
+      } else if (b1.className === 'square'){
+        simB1(); nomove = false;
+      } else{
+        simC1(); nomove = false;
+      }
+    } else if(col2 === 2 || col2 === -2){
+      if(a2.className === 'square'){
+        simA2(); nomove = false;
+      } else if (b2.className === 'square'){
+        simB2(); nomove = false;
+      } else{
+        simC2(); nomove = false;
+      }
+    } else if(col3 === 2 || col3 === -2){
+      if(a3.className === 'square'){
+        simA3(); nomove = false;
+      } else if (b3.className === 'square'){
+        simB3(); nomove = false;
+      } else{
+        simC3(); nomove = false;
+      }
+    } else if(diaA1 === 2 || diaA1 === -2){
+      if(a1.className === 'square'){
+        simA1(); nomove = false;
+      } else if (b2.className === 'square'){
+        simB2(); nomove = false;
+      } else{
+        simC3(); nomove = false;
+      }
+    } else if(diaA3 === 2 || diaA3 === -2){
+      if(a3.className === 'square'){
+        simA3(); nomove = false;
+      } else if (b2.className === 'square'){
+        simB2(); nomove = false;
+      } else{
+        simC1(); nomove = false;
+      }
+    } else {
+      easyComp(); nomove = false;
+    }
+  }
+}
+
+// Hard Computer function: Start's identically to the medium function;
+// if there are no immediate win possisibilities, the next two elses set
+// up the first move of the comp, giving priority to the middle square
+// and top-right respectively; the last two elses block a tri-corner
+// trap by the user; the last else picks a random square using the
+// easyComp function.
 function hardComp(){
   var nomove = true;
   while(nomove && clickCounter < 8){
@@ -458,9 +553,13 @@ function hardComp(){
       }
     } else if(b2.className === 'square'){
       simB2(); nomove = false;
-    } else if(a1.className === 'square'){
+    } else if(a1.className === 'square' && !(a3.className === 'square x' && c1.className === 'square x')){
       simA1(); nomove = false;
-    } else{
+    } else if(a1.className === 'square x' && c3.className === 'square x'){
+      simC2(); nomove = false;
+    } else if(a3.className === 'square x' && c1.className === 'square x'){
+      simB3(); nomove = false;
+    } else {
       easyComp(); nomove = false;
     }
   }
@@ -639,8 +738,3 @@ function simC3(){
     winnerCheck();
   }
 }
-
-
-// Issues: Hard AI can't tell if there
-
-
