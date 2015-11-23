@@ -1,17 +1,4 @@
 ///////////////////////////////////////////////////////////////////////
-//                        To-Do List                                 //
-///////////////////////////////////////////////////////////////////////
-/*
-
-1. Change the styles to be prettier
-2. Animals
-3. Allow inputs for the names
-4. Create weak a1
-5. Create strong a1
-6. Play a sound
-
-*/
-///////////////////////////////////////////////////////////////////////
 //                           Variables                               //
 ///////////////////////////////////////////////////////////////////////
 
@@ -80,7 +67,11 @@ function isPlayer1Turn(){
 var gameOver = false;
 function winnerCheck(){
   if(rowA === -3 || rowB === -3 || rowC === -3 || col1 === -3 || col2 === -3 || col3 === -3 || diaA1 === -3 || diaA3 === -3){
-    middle.innerHTML = 'Winner: Player 2!';
+    if(compOn % 3 === 0){
+      middle.innerHTML = 'Winner: Player 2!';
+    } else {
+      middle.innerHTML = 'Winner: Computer!'
+    }
     middle.style.color = "#E05151";
     gameOver = true;
     messageSetup();
@@ -127,7 +118,7 @@ button.addEventListener('click', function(){
   diaA1 = 0;
   diaA3 = 0;
   gameOver = false;
-  easyCompOn = 0;
+  compOn = 0;
   messageSetup();
   player1.style.textDecoration = "underline";
   player2.style.textDecoration = "none";
@@ -163,7 +154,7 @@ a1.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
-    easyComp();
+    compTurn();
   }
 })
 a2.addEventListener('click', function(){
@@ -183,7 +174,7 @@ a2.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
-    easyComp();
+    compTurn();
   }
 })
 a3.addEventListener('click', function(){
@@ -203,7 +194,7 @@ a3.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
-    easyComp();
+    compTurn();
   }
 })
 b1.addEventListener('click', function(){
@@ -223,7 +214,7 @@ b1.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
-    easyComp();
+    compTurn();
   }
 })
 b2.addEventListener('click', function(){
@@ -243,7 +234,7 @@ b2.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
-    easyComp();
+    compTurn();
   }
 })
 b3.addEventListener('click', function(){
@@ -263,7 +254,7 @@ b3.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
-    easyComp();
+    compTurn();
   }
 })
 c1.addEventListener('click', function(){
@@ -283,7 +274,7 @@ c1.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
-    easyComp();
+    compTurn();
   }
 })
 c2.addEventListener('click', function(){
@@ -303,7 +294,7 @@ c2.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
-    easyComp();
+    compTurn();
   }
 })
 c3.addEventListener('click', function(){
@@ -323,7 +314,7 @@ c3.addEventListener('click', function(){
     }
     clickCounter ++;
     winnerCheck();
-    easyComp();
+    compTurn();
   }
 })
 
@@ -332,21 +323,32 @@ c3.addEventListener('click', function(){
 ///////////////////////////////////////////////////////////////////////
 
 // Computer variables
-var easyCompOn = 0;
+var compOn = 0;
 
 // Sets up event listener to turn on compAI
 player2.addEventListener('click', function(){
-  easyCompOn ++;
-  if(easyCompOn % 2 === 0){
+  compOn ++;
+  if(compOn % 3 === 0){
     player2.innerHTML = 'Player 2';
-  } else {
+  } else if(compOn % 3 === 1){
     player2.innerHTML = 'Easy Computer';
+  } else {
+    player2.innerHTML = 'Hard Computer'
   }
 })
 
 // Picks a random number from 0 to 8.
 function ranZeroToEight(){
   return Math.floor(Math.random() * 9);
+}
+
+// This switch allows the easy comp and hard comp to move.
+function compTurn(){
+  if(compOn % 3 === 1){
+    easyComp();
+  } else if (compOn % 3 === 2){
+    hardComp();
+  }
 }
 
 // Easy Computer function: The if statement checks if the easy computer
@@ -357,40 +359,111 @@ function ranZeroToEight(){
 // var; if 'possMove' still has the starting class, the switch runs a
 // click simulation on the respective square.
 function easyComp(){
-  if(easyCompOn % 2 === 1){
-    var noMove = true;
-    while(noMove && clickCounter < 8){
-      var possMove = square[ranZeroToEight()];
-      if(possMove.className === 'square'){
-        switch(possMove){
-          case a1:
-            simA1(); break;
-          case a2:
-            simA2(); break;
-          case a3:
-            simA3(); break;
-          case b1:
-            simB1(); break;
-          case b2:
-            simB2(); break;
-          case b3:
-            simB3(); break;
-          case c1:
-            simC1(); break;
-          case c2:
-            simC2(); break;
-          case c3:
-            simC3(); break;
-        }
-        noMove = false;
+  var noMove = true;
+  while(noMove && clickCounter < 8){
+    var possMove = square[ranZeroToEight()];
+    if(possMove.className === 'square'){
+      switch(possMove){
+        case a1:
+          simA1(); break;
+        case a2:
+          simA2(); break;
+        case a3:
+          simA3(); break;
+        case b1:
+          simB1(); break;
+        case b2:
+          simB2(); break;
+        case b3:
+          simB3(); break;
+        case c1:
+          simC1(); break;
+        case c2:
+          simC2(); break;
+        case c3:
+          simC3(); break;
       }
+      noMove = false;
     }
   }
 }
 
 // Hard Computer function:
 function hardComp(){
-
+  var nomove = true;
+  while(nomove && clickCounter < 8){
+    if(rowA === 2 || rowA === -2){
+      if(a1.className === 'square'){
+        simA1(); nomove = false;
+      } else if (a2.className === 'square'){
+        simA2(); nomove = false;
+      } else{
+        simA3(); nomove = false;
+      }
+    } else if(rowB === 2 || rowB === -2){
+      if(b1.className === 'square'){
+        simB1(); nomove = false;
+      } else if (b2.className === 'square'){
+        simB2(); nomove = false;
+      } else{
+        simB3(); nomove = false;
+      }
+    } else if(rowC === 2 || rowC === -2){
+      if(c1.className === 'square'){
+        simC1(); nomove = false;
+      } else if (c2.className === 'square'){
+        simC2(); nomove = false;
+      } else{
+        simC3(); nomove = false;
+      }
+    } else if(col1 === 2 || col1 === -2){
+      if(a1.className === 'square'){
+        simA1(); nomove = false;
+      } else if (b1.className === 'square'){
+        simB1(); nomove = false;
+      } else{
+        simC1(); nomove = false;
+      }
+    } else if(col2 === 2 || col2 === -2){
+      if(a2.className === 'square'){
+        simA2(); nomove = false;
+      } else if (b2.className === 'square'){
+        simB2(); nomove = false;
+      } else{
+        simC2(); nomove = false;
+      }
+    } else if(col3 === 2 || col3 === -2){
+      if(a3.className === 'square'){
+        simA3(); nomove = false;
+      } else if (b3.className === 'square'){
+        simB3(); nomove = false;
+      } else{
+        simC3(); nomove = false;
+      }
+    } else if(diaA1 === 2 || diaA1 === -2){
+      if(a1.className === 'square'){
+        simA1(); nomove = false;
+      } else if (b2.className === 'square'){
+        simB2(); nomove = false;
+      } else{
+        simC3(); nomove = false;
+      }
+    } else if(diaA3 === 2 || diaA3 === -2){
+      if(a3.className === 'square'){
+        simA3(); nomove = false;
+      } else if (b2.className === 'square'){
+        simB2(); nomove = false;
+      } else{
+        simC1(); nomove = false;
+      }
+    } else if(b2.className === 'square'){
+      simB2(); nomove = false;
+    } else if(a1.className === 'square'){
+      simA1(); nomove = false;
+    } else{
+      easyComp(); nomove = false;
+    }
+  }
 }
 
 // These Simulated click functions identical to the click functions aside
@@ -566,3 +639,8 @@ function simC3(){
     winnerCheck();
   }
 }
+
+
+// Issues: Hard AI can't tell if there
+
+
